@@ -21,9 +21,15 @@ class HomePageTest(TestCase):
         self.assertEqual(Item.objects.count(), 1)
         new_item = Item.objects.first()
         self.assertEqual(new_item.text, 'A new list item')
-        
+
         self.assertIn('A new list item', response.content.decode())
         self.assertTemplateUsed(response, 'home.html')
+    
+    def test_only_saves_items_when_necessary(self):
+        # We don't want to save on a get request, bc we aren't adding anything
+
+        self.client.get('/')
+        self.assertEqual(Item.objects.count(), 0)
 
 class ItemModelTest(TestCase):
 
