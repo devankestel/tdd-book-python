@@ -41,14 +41,11 @@ class NewVisitorTest(unittest.TestCase):
         # "1: Buy peacock feathers"
 
         inputbox.send_keys(Keys.ENTER)
-        time.sleep(3)
+        time.sleep(1)
 
         table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_id('tr')
-        self.assertTrue(
-            any(row.text == '1: Buy peacock feathers' for row in rows),
-            f"New todo item did not appear in table. Contents were:\n{table.text}"
-        )
+        rows = table.find_elements_by_tag_name('tr')
+        self.assertIn('1: Buy peacock feathers', [row.text for row in rows])
 
         # There is still a text box inviting her to add another item.
         # She enters:
