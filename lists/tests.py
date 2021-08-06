@@ -26,7 +26,7 @@ class HomePageTest(TestCase):
         response = self.client.post('/', data={'item_text': 'A new list item'})
         
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/lists/the-only-list-in-the-world')
+        self.assertEqual(response['location'], '/lists/the-only-list-in-the-world/')
     
     def test_only_saves_items_when_necessary(self):
         # We don't want to save on a get request, bc we aren't adding anything
@@ -68,7 +68,7 @@ class ListViewTest(TestCase):
         Item.objects.create(text='item1')
         Item.objects.create(text='item2')
 
-        response = self.client.get('/lists/the-only-list-in-the-world')
+        response = self.client.get('/lists/the-only-list-in-the-world/')
 
         self.assertContains(response, 'item1')
         self.assertContains(response, 'item2')
