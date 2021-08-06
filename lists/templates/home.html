@@ -2,7 +2,7 @@
     <title>Todo Lists</title>
     <body>
         <h1>Your Todo List</h1>
-        <form method="POST">
+        <form method="POST" action="/">
             <input name="item_text" id="id_new_item" placeholder="Enter a todo item" />
             {% csrf_token %}
         </form>
