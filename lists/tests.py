@@ -82,8 +82,9 @@ class NewListTest(TestCase):
         response = self.client.post('/lists/new', data={'item_text': 'A new list item'})
         new_list = List.objects.first()
 
-        self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], f'/lists/{new_list.id}/')
+        self.assertEqual(response.status_code, 302)
+        
 
 class NewItemTest(TestCase):
 
@@ -92,7 +93,7 @@ class NewItemTest(TestCase):
         other_list = List.objects.create()
 
         self.client.post(
-            f'lists/{correct_list.id}/add_item',
+            f'/lists/{correct_list.id}/add_item',
             data={'item_text': 'A new item for an existing list'}
         )
 
@@ -105,10 +106,10 @@ class NewItemTest(TestCase):
         correct_list = List.objects.create()
         other_list = List.objects.create()
 
-        self.client.post(
-            f'list/{correct_list.id}/add_item',
+        response = self.client.post(
+            f'/lists/{correct_list.id}/add_item',
             data={'item_text': 'A new item for an existing list'}
         )
 
-        self.assertRedirects(response, f'lists/{correct_list.id}/')
+        self.assertRedirects(response, f'/lists/{correct_list.id}/')
 
