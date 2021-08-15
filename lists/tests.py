@@ -4,7 +4,7 @@ from django.test import TestCase
 from django.http import HttpRequest, response
 
 
-from lists.views import home_page
+from lists.views import home_page, new_list
 from lists.models import Item, List
 
 # Create your tests here.
@@ -80,6 +80,7 @@ class NewListTest(TestCase):
 
     def test_redirects_after_post(self):
         response = self.client.post('/lists/new', data={'item_text': 'A new list item'})
-        
+        new_list = List.objects.first()
+
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], '/lists/the-only-list-in-the-world/')
+        self.assertEqual(response['location'], f'/lists/{new_list.id}/')
