@@ -84,3 +84,31 @@ class NewListTest(TestCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], f'/lists/{new_list.id}/')
+
+class NewItemTest(TestCase):
+
+    def test_can_save_a_post_request_to_an_existing_list(self):
+        correct_list = List.objects.create()
+        other_list = List.objects.create()
+
+        self.client.post(
+            f'lists/{correct_list.id}/add_item',
+            data={'item_text': 'A new item for an existing list'}
+        )
+
+        self.assertEqual(Item.objects.count(), 1)
+        new_item = Item.objects.first()
+        self.assertEqual(new_item.text, 'A new item for an existing list')
+        self.assertEqual(new_item.list, correct_list)
+
+    def test_redirects_to_list_view(self):
+        correct_list = List.objects.create()
+        other_list = List.objects.create()
+
+        self.client.post(
+            f'list/{correct_list.id}/add_item',
+            data={'item_text': 'A new item for an existing list'}
+        )
+
+        self.assertRedirects(response, f'lists/{correct_list.id}/')
+
