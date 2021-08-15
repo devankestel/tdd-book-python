@@ -2,7 +2,7 @@
 * [X] don't save blank items for every request
 * [X] display multiple items in the table
 * [ ] support more than one list
-    * [ ] adjust model so that items are associated with different lists
+    * [X] adjust model so that items are associated with different lists
     * [ ] add unique URLs for each list
     * [X] add a URL for creating new list via POST
     * [ ] add URLs for adding a new item to an existing list via POST
